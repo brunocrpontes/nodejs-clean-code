@@ -1,7 +1,8 @@
 module.exports = {
   env: {
-    es2020: true,
-    node: true
+    es2020: false,
+    node: true,
+    es2019: true
   },
   extends: [
     'standard'
@@ -9,7 +10,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 11,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   plugins: [
     '@typescript-eslint'
