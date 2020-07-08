@@ -13,5 +13,6 @@ describe('Authorization Controller', () => {
     const response = sut.authorize(request)
 
     expect(response.statusCode).toBe(422)
+    expect(response.body).toEqual(new Error("Há campos inválidos no formulário"))
   })
 })
