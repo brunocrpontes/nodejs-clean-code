@@ -1,6 +1,7 @@
+import { HttpRequest, HttpResponse } from '../protocols/http'
 
 export default class AuthorizationController {
-  authorize (request: any): any {
+  authorize (request: HttpRequest): HttpResponse {
     if (!request.body.email) {
       return {
         statusCode: 422,
