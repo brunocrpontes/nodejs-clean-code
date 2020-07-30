@@ -1,6 +1,6 @@
-import RequestError from './RequestError'
+import ResponseError from './ResponseError'
 
-export default class UnprocessableEntityError extends RequestError {
+export default class UnprocessableEntityError extends ResponseError {
   constructor (message: string) {
     super(message, 422)
   }

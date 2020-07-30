@@ -1,4 +1,4 @@
-export default class RequestError extends Error {
+export default class ResponseError extends Error {
   public statusCode: number
 
   constructor (message: string, statusCode: number) {
