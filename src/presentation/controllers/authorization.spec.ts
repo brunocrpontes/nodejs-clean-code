@@ -1,4 +1,5 @@
 import AuthorizationController from './authorization'
+import { MissingParamError } from '../errors/MissingParamError'
 
 describe('Authorization Controller', () => {
   test("it should return status code 422 if email isn't provided", () => {
@@ -12,12 +13,7 @@ describe('Authorization Controller', () => {
     const response = sut.authorize(request)
 
     expect(response.statusCode).toBe(422)
-    expect(response.body).toEqual({
-      "message": "Há campos inválidos no formulário",
-      "errors": {
-        "email": "Campo Obrigatório."
-      }
-    })
+    expect(response.body).toEqual(new MissingParamError('email'))
   })
 
   test("it should return status code 422 if password isn't provided", () => {
@@ -31,12 +27,7 @@ describe('Authorization Controller', () => {
     const response = sut.authorize(request)
 
     expect(response.statusCode).toBe(422)
-    expect(response.body).toMatchObject({
-      "message": "Há campos inválidos no formulário",
-      "errors": {
-        "password": "Campo Obrigatório."
-      }
-    })
+    expect(response.body).toEqual(new MissingParamError('password'))
   })
 })
 

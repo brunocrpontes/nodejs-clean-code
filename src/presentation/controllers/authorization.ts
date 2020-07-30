@@ -1,29 +1,15 @@
-import { HttpRequest, HttpResponse } from '../protocols/http'
+import { HttpRequest, HttpResponse } from '../protocols/Http'
+import { MissingParamError } from '../errors/MissingParamError'
+import { UnprocessableEntity } from '../helpers/HttpHelpers'
 
 export default class AuthorizationController {
   authorize (request: HttpRequest): HttpResponse {
     if (!request.body.email) {
-      return {
-        statusCode: 422,
-        body: {
-          message: 'Há campos inválidos no formulário',
-          errors: {
-            email: 'Campo Obrigatório.'
-          }
-        }
-      }
+      return UnprocessableEntity(new MissingParamError('email'))
     }
 
     if (!request.body.password) {
-      return {
-        statusCode: 422,
-        body: {
-          message: 'Há campos inválidos no formulário',
-          errors: {
-            password: 'Campo Obrigatório.'
-          }
-        }
-      }
+      return UnprocessableEntity(new MissingParamError('password'))
     }
   }
 }
