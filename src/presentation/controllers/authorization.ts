@@ -1,15 +1,19 @@
 import { HttpRequest, HttpResponse } from '../protocols/Http'
-import { MissingParamError } from '../errors/MissingParamError'
-import { UnprocessableEntity } from '../helpers/HttpHelpers'
+import UnprocessableEntityError from '../errors/UnprocessableEntityError'
 
 export default class AuthorizationController {
   authorize (request: HttpRequest): HttpResponse {
-    if (!request.body.email) {
-      return UnprocessableEntity(new MissingParamError('email'))
+    const requiredFields = ['email', 'password']
+
+    for (const field of requiredFields) {
+      if (!request.body[field]) {
+        throw new UnprocessableEntityError(`Missing param: ${field}.`)
+      }
     }
 
-    if (!request.body.password) {
-      return UnprocessableEntity(new MissingParamError('password'))
+    return {
+      statusCode: 200,
+      body: {}
     }
   }
 }

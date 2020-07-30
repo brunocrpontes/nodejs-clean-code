@@ -1,8 +1,8 @@
 import AuthorizationController from './authorization'
-import { MissingParamError } from '../errors/MissingParamError'
+import UnprocessableEntityError from '../errors/UnprocessableEntityError'
 
 describe('Authorization Controller', () => {
-  test("it should return status code 422 if email isn't provided", () => {
+  test("it should return an Unprocessable Entity Error if email isn't provided", () => {
     const sut = new AuthorizationController()
     const request = {
       body: {
@@ -10,13 +10,13 @@ describe('Authorization Controller', () => {
       }
     }
 
-    const response = sut.authorize(request)
+    const performRequest = () => sut.authorize(request)
 
-    expect(response.statusCode).toBe(422)
-    expect(response.body).toEqual(new MissingParamError('email'))
+    expect(performRequest).toThrowError(UnprocessableEntityError)
+    expect(performRequest).toThrowError(/^Missing param: email\.$/)
   })
 
-  test("it should return status code 422 if password isn't provided", () => {
+  test("it should return an Unprocessable Entity Error if password isn't provided", () => {
     const sut = new AuthorizationController()
     const request = {
       body: {
@@ -24,10 +24,10 @@ describe('Authorization Controller', () => {
       }
     }
 
-    const response = sut.authorize(request)
+    const performRequest = () => sut.authorize(request)
 
-    expect(response.statusCode).toBe(422)
-    expect(response.body).toEqual(new MissingParamError('password'))
+    expect(performRequest).toThrowError(UnprocessableEntityError)
+    expect(performRequest).toThrowError(/^Missing param: password\.$/)
   })
 })
 
