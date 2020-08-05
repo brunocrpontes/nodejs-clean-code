@@ -1,9 +1,15 @@
 import AuthorizationController from './authorization'
-import UnprocessableEntityError from '../errors/UnprocessableEntityError'
+import UnprocessableEntityError from '../errors/UnprocessableEntityResponseError'
+import ValidationError from '../errors/ValidationError';
+
+function makeSut() {
+  return new AuthorizationController();
+}
+
 
 describe('Authorization Controller', () => {
   test("it should return an Unprocessable Entity Error if email isn't provided", () => {
-    const sut = new AuthorizationController()
+    const sut = makeSut();
     const request = {
       body: {
         password: '********'
@@ -12,12 +18,12 @@ describe('Authorization Controller', () => {
 
     const performRequest = () => sut.authorize(request)
 
-    expect(performRequest).toThrowError(UnprocessableEntityError)
-    expect(performRequest).toThrowError(/^Missing param: email\.$/)
+    expect(performRequest).toThrowError(ValidationError)
+    expect(performRequest).toThrowError('O conteúdo enviado não está de acordo com o esperado.')
   })
 
   test("it should return an Unprocessable Entity Error if password isn't provided", () => {
-    const sut = new AuthorizationController()
+    const sut = makeSut();
     const request = {
       body: {
         email: 'brunocrpontes@gmail.com',
@@ -26,8 +32,8 @@ describe('Authorization Controller', () => {
 
     const performRequest = () => sut.authorize(request)
 
-    expect(performRequest).toThrowError(UnprocessableEntityError)
-    expect(performRequest).toThrowError(/^Missing param: password\.$/)
+    expect(performRequest).toThrowError(ValidationError)
+    expect(performRequest).toThrowError('O conteúdo enviado não está de acordo com o esperado.')
   })
 })
 
